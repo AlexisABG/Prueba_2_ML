@@ -8,4 +8,4 @@ El archivo .py llamado API_modelo debe ser descargado en el mismo directorio rai
 
 En el archico datos prueba API.txt podra encontrar 4 listas que contienen los valores de columnas para probar la API
 
-[image](https://github.com/AlexisABG/Prueba_2_ML/blob/5e89726255500c4db694e5f5d17bc336b02d85bf/API.png)
+<span>https://raw.githubusercontent.com/parzibyte/WaterPy/master/assets/ImagenV1.png</span><span>)</span>
