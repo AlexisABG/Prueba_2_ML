@@ -8,4 +8,5 @@ El archivo .py llamado API_modelo debe ser descargado en el mismo directorio rai
 
 En el archico datos prueba API.txt podra encontrar 4 listas que contienen los valores de columnas para probar la API
 
-<span>https://[https://github.com/AlexisABG/Prueba_2_ML/blob/main/API.png]</span><span>)</span>
+
+<image src="[/images/picture.jpg](https://github.com/AlexisABG/Prueba_2_ML/blob/main/API.png)https://github.com/AlexisABG/Prueba_2_ML/blob/main/API.png" alt="Descripción de la imagen">
