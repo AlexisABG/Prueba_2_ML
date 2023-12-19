@@ -1,33 +1,41 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-import joblib
 import numpy as np
-
-# Cargar el modelo entrenado
-model = joblib.load('rf_model.pkl')
+import joblib
+from sklearn.preprocessing import StandardScaler
 
 # Definir la estructura del cuerpo de la solicitud (input)
-class Item(BaseModel):
-    feature1: float
-    feature2: float
+class InputData(BaseModel):
+    data: list
 
 # Crear la instancia de FastAPI
 app = FastAPI()
 
-# Definir la ruta para realizar predicciones
-@app.post("/predict")
-async def predict(item: Item):
-    # Convertir los datos de entrada a un arreglo de NumPy
-    features = np.array([[item.feature1, item.feature2]])
+# Cargar el modelo previamente guardado
+model_path = "rf_model.pkl"
+loaded_model = joblib.load(model_path)
 
-    # Realizar la predicción
-    prediction = model.predict(features)
+# Definir la ruta para realizar la predicción con una lista de datos
+@app.post("/predict_list")
+async def predict_list(input_data: InputData):
+    # Obtener la lista de datos de la solicitud
+    input_list = input_data.data
+    scaler = StandardScaler()
+    scaled = scaler.fit_transform([[x] for x in input_list[:8]])
+    scaled = scaled.flatten().tolist()
+    input_list = scaled + input_list[8:] 
+    print(input_list)
 
-    # Devolver el resultado
-    return {"prediction": int(prediction[0])}
+    # Convertir la lista a un arreglo de NumPy
+    input_array = np.array(input_list).reshape(1, -1)
 
-import uvicorn
+    # Utilizar el modelo cargado para realizar la predicción
+    prediction = loaded_model.predict(input_array)
+
+    # Devolver la predicción como un número (aquí es solo un ejemplo)
+    return {"prediction": float(prediction[0])}
+
+# Si ejecutas este archivo directamente, arranca el servidor
 if __name__ == "__main__":
-    uvicorn.run("API_model:app", host="0.0.0.0", port=8000, reload=False, log_level="debug", debug=True,
-                workers=1, limit_concurrency=1, limit_max_requests=1)
-
+    import uvicorn
+    uvicorn.run(app, host="127.0.0.1", port=8000)
